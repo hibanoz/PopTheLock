@@ -8,8 +8,11 @@ public class CoinSpawner : MonoBehaviour
     private float _maxRotationAngle = 360;
     private float _coinAngle;
 
-    [SerializeField] private float Delta = 45;
-    [SerializeField] private GameObject _coin;
+    [SerializeField] private float _deltaMin = 20;
+    [SerializeField] private float _deltaMax = 60;
+    [SerializeField] private PlayerController Controller;
+    [SerializeField] private GameManager GameManager;
+    public GameObject _coin;
 
     // Start is called before the first frame update
     void Start()
@@ -17,13 +20,35 @@ public class CoinSpawner : MonoBehaviour
         //NewCoinPosition();
     }
 
+    void Update()
+    {
+        if (GameManager.GameStatus)
+        {
+            _coin.SetActive(true);
+        }
+    }
+
     public void NewCoinPosition()
     {
-        _coin.SetActive(true);
-        _minRotationAngle = transform.eulerAngles.z - Delta;
-        _minRotationAngle = transform.eulerAngles.z + Delta;
-        _coinAngle = Random.Range(_minRotationAngle, _maxRotationAngle);
-        transform.eulerAngles = Vector3.forward * _coinAngle;
+
+        if (Controller._direction == PlayerController.Direction.Clockwise)
+        {
+            _minRotationAngle = transform.eulerAngles.z - _deltaMin;
+            _maxRotationAngle = transform.eulerAngles.z - _deltaMax;
+            _coinAngle = Random.Range(_minRotationAngle, _maxRotationAngle);
+            transform.eulerAngles = Vector3.forward * _coinAngle;
+            Debug.Log("ActualPosition : " + transform.eulerAngles.z + "NearestAngle : " + _minRotationAngle + "FurtherstAngle : " + _maxRotationAngle);
+        }
+
+        if (Controller._direction == PlayerController.Direction.AntiClockwise)
+        {
+            _minRotationAngle = transform.eulerAngles.z + _deltaMin;
+            _maxRotationAngle = transform.eulerAngles.z + _deltaMax;
+            _coinAngle = Random.Range(_minRotationAngle, _maxRotationAngle);
+            transform.eulerAngles = Vector3.forward * _coinAngle;
+            Debug.Log("ActualPosition : "+ transform.eulerAngles.z + "NearestAngle : " +_minRotationAngle + "FurtherstAngle : " + _maxRotationAngle);
+        }
+
     }
 
 }

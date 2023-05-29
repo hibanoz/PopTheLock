@@ -517,7 +517,7 @@ MonoBehaviour:
   _spawner: {fileID: 1077998135}
   _startText: {fileID: 1820535641}
   _losePanel: {fileID: 960427593}
-  _winAnimation: {fileID: 1370164996}
+  _animation: {fileID: 1370164996}
   _targetScore: 5
   _myScoretext: {fileID: 360216986}
 --- !u!4 &438459989
@@ -675,7 +675,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 1, g: 0.8482239, b: 0.4198113, a: 0}
+  m_BackGroundColor: {r: 1, g: 0.84705883, b: 0.41960785, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -738,7 +738,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameCam: {fileID: 519420031}
   _baseColor: {r: 1, g: 0.84705883, b: 0.41960785, a: 1}
-  _winColor: {r: 0.7235198, g: 1, b: 0.41960788, a: 1}
+  _winColor: {r: 0.46666667, g: 0.78431374, b: 0.24705882, a: 1}
   _loseColor: {r: 1, g: 0.41960788, b: 0.44256783, a: 1}
   _lerpValue: 0
   _lerpSpeed: 5
@@ -1175,7 +1175,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b27075ca0cf1d4914955fd8b1e79f20c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Delta: 90
+  _deltaMin: 20
+  _deltaMax: 90
+  Controller: {fileID: 2063029308}
+  GameManager: {fileID: 438459988}
   _coin: {fileID: 1865047378}
 --- !u!1 &1181546920
 GameObject:
@@ -1345,7 +1348,7 @@ Transform:
   - {fileID: 2055074803}
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.5103001}
 --- !u!111 &1370164996
 Animation:
   m_ObjectHideFlags: 0
@@ -1355,9 +1358,10 @@ Animation:
   m_GameObject: {fileID: 1370164994}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: f21b3c3a5d84541a4b4a6d7e8c592da6, type: 2}
+  m_Animation: {fileID: 0}
   m_Animations:
   - {fileID: 7400000, guid: f21b3c3a5d84541a4b4a6d7e8c592da6, type: 2}
+  - {fileID: 7400000, guid: 2d78fe7801cfbf04d86123e15e328364, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -2143,11 +2147,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rotationAngle: 1
-  _speedUpRatio: 0.05
+  _speedUpRatio: 0.1
   GameManager: {fileID: 438459988}
   Collision: {fileID: 1797336663}
   Spawner: {fileID: 1077998135}
   _rotationSpeed: 90
+  _direction: -1
 --- !u!1 &2081292239
 GameObject:
   m_ObjectHideFlags: 0

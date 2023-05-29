@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public PlayerCollision Collision;
     public CoinSpawner Spawner;
     public float _rotationSpeed;
+    public Direction _direction;
 
     // Start is called before the first frame update
     void Start(){
@@ -34,7 +35,7 @@ public class PlayerController : MonoBehaviour
             }
 
             else if (Collision.CanClick){
-                _rotationAngle = _rotationAngle * -1;
+                EnumSwitcher();
                 GameManager.ScoreUpdate();
                 Spawner.NewCoinPosition();
                 _rotationSpeed = _rotationSpeed * (1 + _speedUpRatio);
@@ -47,7 +48,28 @@ public class PlayerController : MonoBehaviour
         } 
     }
     public void Rotate(){
-        transform.RotateAround(transform.position, transform.forward, Time.deltaTime* _rotationSpeed * _rotationAngle);
+        transform.RotateAround(transform.position, transform.forward, Time.deltaTime* _rotationSpeed * _rotationAngle * (int)_direction);
     }
 
+    public enum Direction
+    {
+        Clockwise =-1, AntiClockwise =1
+    }
+
+    private void EnumSwitcher(){
+
+           switch (_direction)
+        {
+            case Direction.Clockwise:
+                {
+                    _direction = Direction.AntiClockwise;
+                    break;
+                }
+            case Direction.AntiClockwise:
+                {
+                    _direction = Direction.Clockwise;
+                    break;
+                }
+        }
+    }
 }

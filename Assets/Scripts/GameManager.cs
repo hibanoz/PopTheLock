@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CoinSpawner _spawner;
     [SerializeField] private GameObject _startText;
     [SerializeField] private GameObject _losePanel;
-    [SerializeField] private Animation _winAnimation;
+    [SerializeField] private Animation _animation;
     [SerializeField] private int _targetScore;
     [SerializeField] private TMPro.TextMeshProUGUI _myScoretext;
 
@@ -36,9 +36,12 @@ public class GameManager : MonoBehaviour
         if (GameStatus && _myScore == 0 && !LevelComplete){
             YouWin();
         }
-    }
 
-   public void StartGame(){
+        if (Input.GetKeyDown("space") && LevelComplete){
+            ReloadScene();
+        }
+    }
+    public void StartGame(){
         GameStatus = true;
         _startText.SetActive(false);
         PlayerCollision.CanClick = false;
@@ -50,6 +53,7 @@ public class GameManager : MonoBehaviour
         //_losePanel.SetActive(true);
         LevelComplete = true;
         LevelLose = true;
+        _animation.Play("LoseAnimation");
     }
 
     public void ReloadScene() {
@@ -57,8 +61,9 @@ public class GameManager : MonoBehaviour
     }
 
     public void YouWin() {
+        _spawner._coin.SetActive(false);
         PlayerController._rotationSpeed = 0;
-        _winAnimation.Play("Level Complete");
+        _animation.Play("Level Complete");
         LevelComplete = true;
         LevelWin = true;
     }
