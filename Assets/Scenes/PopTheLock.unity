@@ -508,8 +508,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f876c374305994272bd6f7171a80679b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerController: {fileID: 2063029308}
   GameStatus: 0
+  LevelComplete: 0
+  LevelWin: 0
+  LevelLose: 0
+  PlayerController: {fileID: 2063029308}
+  PlayerCollision: {fileID: 1797336663}
+  _spawner: {fileID: 1077998135}
   _startText: {fileID: 1820535641}
   _losePanel: {fileID: 960427593}
   _winAnimation: {fileID: 1370164996}
@@ -610,6 +615,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -718,6 +724,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9165be294af76d74d82e13d838cee932, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameCam: {fileID: 519420031}
+  _baseColor: {r: 1, g: 0.84705883, b: 0.41960785, a: 1}
+  _winColor: {r: 0.7235198, g: 1, b: 0.41960788, a: 1}
+  _loseColor: {r: 1, g: 0.41960788, b: 0.44256783, a: 1}
+  _lerpValue: 0
+  _lerpSpeed: 5
+  GameManager: {fileID: 438459988}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1151,6 +1176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Delta: 90
+  _coin: {fileID: 1865047378}
 --- !u!1 &1181546920
 GameObject:
   m_ObjectHideFlags: 0
@@ -1778,7 +1804,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1865047379
 Transform:
   m_ObjectHideFlags: 0
@@ -2117,7 +2143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rotationAngle: 1
-  _speedUpRaio: 0.05
+  _speedUpRatio: 0.05
   GameManager: {fileID: 438459988}
   Collision: {fileID: 1797336663}
   Spawner: {fileID: 1077998135}
