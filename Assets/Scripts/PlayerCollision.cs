@@ -7,16 +7,8 @@ public class PlayerCollision : MonoBehaviour
 
     public bool CanClick;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         CanClick = true;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void OnTriggerEnter2D(Collider2D collision)

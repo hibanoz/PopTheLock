@@ -13,15 +13,10 @@ public class ColorLerp : MonoBehaviour
     [SerializeField] private float _lerpSpeed=3;
     [SerializeField] private GameManager GameManager;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update(){
         if (GameManager.LevelWin) {
             GameCam.backgroundColor = Color.Lerp(_baseColor, _winColor, _lerpValue += _lerpSpeed * Time.deltaTime);
         }

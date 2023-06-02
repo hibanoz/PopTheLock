@@ -5,15 +5,13 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-
-    [SerializeField] private int _rotationAngle = 1;
     [SerializeField] private float _speedUpRatio;
-    [SerializeField] private GameManager GameManager;
+    [SerializeField] private GameManager _gameManager;
 
     public PlayerCollision Collision;
     public CoinSpawner Spawner;
-    public float _rotationSpeed;
-    public Direction _direction;
+    public float RotationSpeed;
+    public Direction RotDirection;
 
     // Start is called before the first frame update
     void Start(){
@@ -23,53 +21,51 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update(){
 
-        if (GameManager.GameStatus){
+        if (_gameManager.GameStatus){
             Rotate();
         }
 
-        if (Input.GetKeyDown("space") && !GameManager.LevelComplete) {
+        if (Input.GetKeyDown("space") && !_gameManager.LevelComplete) {
 
-            if (!GameManager.GameStatus){
-                GameManager.StartGame();
+            if (!_gameManager.GameStatus){
+                _gameManager.StartGame();
                 return;
             }
 
             else if (Collision.CanClick){
                 EnumSwitcher();
-                GameManager.ScoreUpdate();
+                _gameManager.ScoreUpdate();
                 Spawner.NewCoinPosition();
-                _rotationSpeed = _rotationSpeed * (1 + _speedUpRatio);
+                RotationSpeed *= (1 + _speedUpRatio);
                 return;
             }
 
             else{
-                GameManager.LoseGame();
+                _gameManager.LoseGame();
             }
         } 
     }
-    public void Rotate(){
-        transform.RotateAround(transform.position, transform.forward, Time.deltaTime* _rotationSpeed * _rotationAngle * (int)_direction);
+    void Rotate(){
+        int _rotationAngle = 1;
+        transform.RotateAround(transform.position, transform.forward, Time.deltaTime* RotationSpeed * _rotationAngle * (int)RotDirection);
     }
 
-    public enum Direction
-    {
+    public enum Direction{
         Clockwise =-1, AntiClockwise =1
     }
 
     private void EnumSwitcher(){
 
-           switch (_direction)
-        {
+           switch (RotDirection)
+            {
             case Direction.Clockwise:
-                {
-                    _direction = Direction.AntiClockwise;
+
+                RotDirection = Direction.AntiClockwise;
                     break;
-                }
+                
             case Direction.AntiClockwise:
-                {
-                    _direction = Direction.Clockwise;
+                    RotDirection = Direction.Clockwise;
                     break;
-                }
-        }
+               }
     }
 }
