@@ -16,11 +16,7 @@ public class CoinSpawner : MonoBehaviour
             _coin.SetActive(true);
         }
     }
-
     public void NewCoinPosition(){
-        
-
-
         if (_controller.RotDirection == PlayerController.Direction.Clockwise) {
             
             transform.eulerAngles = Vector3.forward * RotationCalculator(-1);
@@ -31,11 +27,7 @@ public class CoinSpawner : MonoBehaviour
 
             transform.eulerAngles = Vector3.forward * RotationCalculator(1);
         }
-
-       
-
     }
-
 
     float RotationCalculator (int moveDir){
         float coinAngle;
