@@ -5,22 +5,22 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Game Status")]
     public bool GameStatus;
     public bool LevelComplete;
     public bool LevelWin;
     public bool LevelLose;
 
+    [Header("Script References")]
     [SerializeField] private PlayerController _playerController;
     [SerializeField] private PlayerCollision _playerCollision;
     [SerializeField] private CoinSpawner _spawner;
     [SerializeField] private GameObject _coinSpawner;
 
-
+    [Header("UI")]
     [SerializeField] private GameObject _startText;
     [SerializeField] private GameObject _losePanel;
     [SerializeField] private Animation _animation;
-
-
     [SerializeField] private int _targetScore;
     [SerializeField] private TMPro.TextMeshProUGUI _myScoretext;
     private int _myScore;
@@ -49,11 +49,11 @@ public class GameManager : MonoBehaviour
         _startText.SetActive(false);
         _playerCollision.CanClick = false;
         _spawner.NewCoinPosition();
+ 
     }
 
     public void LoseGame(){
         GameStatus = false;
-        //_losePanel.SetActive(true);
         LevelComplete = true;
         LevelLose = true;
         _animation.Play("LoseAnimation");

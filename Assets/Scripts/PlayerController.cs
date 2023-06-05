@@ -4,28 +4,30 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float _speedUpRatio;
-    [SerializeField] private GameManager _gameManager;
-    [SerializeField] private float _boostRatio = 1;
-
-    public PlayerCollision Collision;
-    public CoinSpawner Spawner;
+    [Header("Speed Controllers")]
     public float RotationSpeed;
+    [SerializeField] private float _speedUpRatio;
+    private float _currentSpeed;
+
+    [Header("Boost Controllers")]
+    [SerializeField] private float _boostRatio = 1;    
+    [SerializeField] private bool _boosted = true;
+    [SerializeField] private AnimationCurve BoostCurve;
+
+
+    [Header("Game Controllers")]
+    [SerializeField] private PlayerCollision Collision;
+    [SerializeField] private CoinSpawner Spawner;
     public Direction RotDirection;
-    public AnimationCurve BoostCurve;
+    [SerializeField] private GameManager _gameManager;
 
-    private void Start()
-    {
-        Boosted();
-        
-
-    }
     void Update(){
-
+        //////Start Game
         if (_gameManager.GameStatus){
             Rotate();
         }
 
+        //////Gameplay Controls
         if (Input.GetKeyDown("space") && !_gameManager.LevelComplete) {
 
             if (!_gameManager.GameStatus){
@@ -40,7 +42,7 @@ public class PlayerController : MonoBehaviour
                 _gameManager.ScoreUpdate();
                 Spawner.NewCoinPosition();
                 RotationSpeed *= (1 + _speedUpRatio);
-                
+                _boosted = true;
                 return;
             }
 
@@ -50,10 +52,19 @@ public class PlayerController : MonoBehaviour
 
             
         }
+
+        if (_boosted)
+        {
+            StartCoroutine(Boosted());
+        }
+
+        _currentSpeed = Time.deltaTime * RotationSpeed * (int)RotDirection * _boostRatio;
+
+
     }
     private void Rotate(){
         int _rotationAngle = 1;
-        transform.RotateAround(transform.position, transform.forward, Time.deltaTime* RotationSpeed * _rotationAngle * (int)RotDirection);
+        transform.RotateAround(transform.position, transform.forward, Time.deltaTime* RotationSpeed * _rotationAngle * (int)RotDirection * _boostRatio);
     }
 
     public enum Direction{
@@ -77,18 +88,17 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Boosted() {
         float time = 0;
-        float LerpSpeed = 1;
+        float LerpSpeed = 1f;
 
         while (time < 1){
-            _boostRatio = Mathf.Lerp(2f, 1f, BoostCurve.Evaluate(time));
+            _boostRatio = Mathf.Lerp(3f, 1f, BoostCurve.Evaluate(time));
             time += Time.deltaTime * LerpSpeed;
-            Debug.Log(_boostRatio);
-            Debug.Log(time);
             yield return null;
-
-           
         }
-
-
+        if (time >= 1) {
+            _boosted = false;
+            _boostRatio = 1;
+            time = 0;
+        }
     }
 }
