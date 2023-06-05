@@ -23,8 +23,6 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private int _targetScore;
     [SerializeField] private TMPro.TextMeshProUGUI _myScoretext;
-
-
     private int _myScore;
 
 

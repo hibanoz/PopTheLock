@@ -515,7 +515,7 @@ MonoBehaviour:
   _playerController: {fileID: 2063029308}
   _playerCollision: {fileID: 1797336663}
   _spawner: {fileID: 1077998135}
-  _coinSpawner: {fileID: 1077998133}
+  _coinSpawner: {fileID: 793038068}
   _startText: {fileID: 1820535641}
   _losePanel: {fileID: 960427593}
   _animation: {fileID: 1370164996}
@@ -989,6 +989,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 626504080}
   m_CullTransparentMesh: 1
+--- !u!1 &793038068 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9119255844035239457, guid: ced6fcb2bcc45dd4cbc6c0a3f56c93d3, type: 3}
+  m_PrefabInstance: {fileID: 9119255843245278067}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &938196145
 GameObject:
   m_ObjectHideFlags: 0
@@ -1131,17 +1136,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1077998133 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9119255844323242310, guid: ced6fcb2bcc45dd4cbc6c0a3f56c93d3, type: 3}
-  m_PrefabInstance: {fileID: 9119255843245278067}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1077998135 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9119255844323242308, guid: ced6fcb2bcc45dd4cbc6c0a3f56c93d3, type: 3}
   m_PrefabInstance: {fileID: 9119255843245278067}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1077998133}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b27075ca0cf1d4914955fd8b1e79f20c, type: 3}
@@ -1584,6 +1584,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CanClick: 0
+  ShouldClick: 0
+  _gameManager: {fileID: 438459988}
 --- !u!50 &1797336664
 Rigidbody2D:
   serializedVersion: 4
@@ -1992,10 +1994,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speedUpRatio: 0.1
   _gameManager: {fileID: 438459988}
+  _boostRatio: 1
   Collision: {fileID: 1797336663}
   Spawner: {fileID: 1077998135}
   RotationSpeed: 90
   RotDirection: -1
+  BoostCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &2081292239
 GameObject:
   m_ObjectHideFlags: 0
@@ -2112,9 +2139,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1354344990, guid: ced6fcb2bcc45dd4cbc6c0a3f56c93d3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9119255844323242308, guid: ced6fcb2bcc45dd4cbc6c0a3f56c93d3, type: 3}
       propertyPath: _deltaMax
-      value: 180
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 9119255844323242308, guid: ced6fcb2bcc45dd4cbc6c0a3f56c93d3, type: 3}
       propertyPath: _controller
