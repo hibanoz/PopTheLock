@@ -17,21 +17,30 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CoinSpawner _spawner;
     [SerializeField] private GameObject _coinSpawner;
 
-    [Header("UI")]
+    [Header("UI References")]
     [SerializeField] private GameObject _startText;
     [SerializeField] private GameObject _losePanel;
     [SerializeField] private Animation _animation;
-    [SerializeField] private int _targetScore;
     [SerializeField] private TMPro.TextMeshProUGUI _myScoretext;
+    [SerializeField] private TMPro.TextMeshProUGUI _levelNumberText;
+
+    [Header("Score & Level Setting")]
+    private int _levelNumber;
+    private int _targetScore=1;
     private int _myScore;
 
-
-    // Start is called before the first frame update
     void Start()
     {
-       GameStatus = false;
-       _myScore = _targetScore;
-       _myScoretext.text = _targetScore.ToString();
+        LoadScore();
+        //Setting the Level Number
+        _levelNumber = _targetScore;
+        _levelNumberText.text = "LEVEL " + _levelNumber.ToString();
+  
+        //Setting the Target Score
+        _myScore = _targetScore;
+        _myScoretext.text = _targetScore.ToString();
+
+        GameStatus = false;
     }
 
     // Update is called once per frame
@@ -49,7 +58,7 @@ public class GameManager : MonoBehaviour
         _startText.SetActive(false);
         _playerCollision.CanClick = false;
         _spawner.NewCoinPosition();
- 
+        _coinSpawner.SetActive(true);
     }
 
     public void LoseGame(){
@@ -59,20 +68,34 @@ public class GameManager : MonoBehaviour
         _animation.Play("LoseAnimation");
     }
 
-    public void ReloadScene() {
+    void ReloadScene() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void YouWin() {
-        _spawner._coin.SetActive(false);
+     void YouWin() {
+        _coinSpawner.SetActive(false);
         _playerController.RotationSpeed = 0;
         _animation.Play("Level Complete");
         LevelComplete = true;
         LevelWin = true;
+        _targetScore++;
+        SaveScore();
     }
 
     public void ScoreUpdate(){
         _myScore -= 1;
         _myScoretext.text = _myScore.ToString();
+    }
+
+    void SaveScore() {
+        PlayerPrefs.SetInt("myLevel", _targetScore);
+    }
+
+    public void LoadScore() {
+        int loadedScore = PlayerPrefs.GetInt("myLevel");
+        if (loadedScore == 0) {
+            loadedScore = 1;
+        }
+        _targetScore = loadedScore;
     }
 }

@@ -9,17 +9,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _speedUpRatio;
     private float _currentSpeed;
 
-    [Header("Boost Controllers")]
-    [SerializeField] private float _boostRatio = 1;    
-    [SerializeField] private bool _boosted = true;
-    [SerializeField] private AnimationCurve BoostCurve;
-
-
     [Header("Game Controllers")]
-    [SerializeField] private PlayerCollision Collision;
-    [SerializeField] private CoinSpawner Spawner;
+    [SerializeField] private BoostManager _boostManager;
+    [SerializeField] private PlayerCollision _collision;
+    [SerializeField] private CoinSpawner _spawner;
+    [SerializeField] private CoinActivator _activator;
     public Direction RotDirection;
     [SerializeField] private GameManager _gameManager;
+    [SerializeField] private ParticleSystem _correctFX;
 
     void Update(){
         //////Start Game
@@ -35,14 +32,8 @@ public class PlayerController : MonoBehaviour
                 return;
             }
 
-            else if (Collision.CanClick){
-                Collision.ShouldClick = false;
-                Collision.CanClick = false;
-                EnumSwitcher();
-                _gameManager.ScoreUpdate();
-                Spawner.NewCoinPosition();
-                RotationSpeed *= (1 + _speedUpRatio);
-                _boosted = true;
+            else if (_collision.CanClick) {
+                CorrectAction();     
                 return;
             }
 
@@ -53,18 +44,13 @@ public class PlayerController : MonoBehaviour
             
         }
 
-        if (_boosted)
-        {
-            StartCoroutine(Boosted());
-        }
-
-        _currentSpeed = Time.deltaTime * RotationSpeed * (int)RotDirection * _boostRatio;
+        _currentSpeed = RotationSpeed * _boostManager.BoostRatio;
 
 
     }
     private void Rotate(){
         int _rotationAngle = 1;
-        transform.RotateAround(transform.position, transform.forward, Time.deltaTime* RotationSpeed * _rotationAngle * (int)RotDirection * _boostRatio);
+        transform.RotateAround(transform.position, transform.forward, Time.deltaTime* RotationSpeed * _rotationAngle * (int)RotDirection * _boostManager.BoostRatio);
     }
 
     public enum Direction{
@@ -86,19 +72,18 @@ public class PlayerController : MonoBehaviour
                }
     }
 
-    IEnumerator Boosted() {
-        float time = 0;
-        float LerpSpeed = 1f;
-
-        while (time < 1){
-            _boostRatio = Mathf.Lerp(3f, 1f, BoostCurve.Evaluate(time));
-            time += Time.deltaTime * LerpSpeed;
-            yield return null;
+    private void CorrectAction()
+    {
+        _collision.ShouldClick = false;
+        _collision.CanClick = false;
+        EnumSwitcher();
+        _gameManager.ScoreUpdate();
+        _activator.Activation();
+        RotationSpeed *= (1 + _speedUpRatio);
+        if (_collision.Boost) {
+            _boostManager.IsBoosted = true;
         }
-        if (time >= 1) {
-            _boosted = false;
-            _boostRatio = 1;
-            time = 0;
-        }
+        _correctFX.Play();
+        _spawner.NewCoinPosition();
     }
 }
