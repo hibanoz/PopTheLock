@@ -2,29 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoinSpawner : MonoBehaviour
+public class CoinRotator : MonoBehaviour
 {
+
+    [Header("Normal Angles")]
     [SerializeField] private float _deltaMin = 20;
     [SerializeField] private float _deltaMax = 60;
+
+    [Header("Boosted Angles")]
     [SerializeField] private float _deltaMinBoost = 20;
     [SerializeField] private float _deltaMaxBoost = 60;
+
+    [Header("Script References")]
     [SerializeField] private PlayerController _controller;
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private CoinActivator _activator;
     [SerializeField] private BoostManager _boostManager;
+
+    [Header("Starter Coin")]
     public GameObject _coin;
 
-     void Start(){
-        if (_gameManager.GameStatus)
-        {
-            _activator.Activation();
-        }
-    }
+    // Activate the intial Coin
     void Update(){
-        if (_gameManager.GameStatus){
+        if (_gameManager.GameStarted){
             _coin.SetActive(true);
         }
     }
+    
+    // Set the new coin rotation
     public void NewCoinPosition(){
         if (_controller.RotDirection == PlayerController.Direction.Clockwise) {
             transform.eulerAngles = Vector3.forward * RotationCalculator(-1);
@@ -35,6 +40,7 @@ public class CoinSpawner : MonoBehaviour
         }
     }
 
+    // Calculate the coin rotation
     float RotationCalculator(int moveDir)
     {
         float coinAngle;

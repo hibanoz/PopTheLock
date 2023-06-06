@@ -8,10 +8,13 @@ public class BoostManager : MonoBehaviour
     public float BoostRatio = 1;
     [SerializeField] private AnimationCurve BoostCurve;
     public bool IsBoosted;
-    [SerializeField] private ParticleSystem _boostFX;
     public bool IsCurrentlyBoosted;
+
+    [Header("Juice")]
+    [SerializeField] private ParticleSystem _boostFX;
     [SerializeField] private Animation _boostUIAnimation;
 
+    //Activate the Boost Coroutine to Lerp Speed
     void Update(){
         if (IsBoosted) {
             StartCoroutine(Boosted());
@@ -20,6 +23,7 @@ public class BoostManager : MonoBehaviour
         }
     }
 
+    //Boost Lerp Coroutine controlled by Animation Curve
     IEnumerator Boosted()  {
 
         float lerpSpeed = 1f;

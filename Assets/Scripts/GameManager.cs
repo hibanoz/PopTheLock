@@ -5,16 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("God Mode")]
+    public bool TestMode;
+
     [Header("Game Status")]
-    public bool GameStatus;
+    public bool GameStarted;
     public bool LevelComplete;
     public bool LevelWin;
     public bool LevelLose;
 
+
     [Header("Script References")]
     [SerializeField] private PlayerController _playerController;
     [SerializeField] private PlayerCollision _playerCollision;
-    [SerializeField] private CoinSpawner _spawner;
+    [SerializeField] private CoinRotator _spawner;
     [SerializeField] private GameObject _coinSpawner;
 
     [Header("UI References")]
@@ -24,7 +28,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMPro.TextMeshProUGUI _myScoretext;
     [SerializeField] private TMPro.TextMeshProUGUI _levelNumberText;
 
-    [Header("Score & Level Setting")]
     private int _levelNumber;
     private int _targetScore=1;
     private int _myScore;
@@ -40,12 +43,12 @@ public class GameManager : MonoBehaviour
         _myScore = _targetScore;
         _myScoretext.text = _targetScore.ToString();
 
-        GameStatus = false;
+        GameStarted = false;
     }
 
-    // Update is called once per frame
+
     void Update(){
-        if (GameStatus && _myScore == 0 && !LevelComplete){
+        if (GameStarted && _myScore == 0 && !LevelComplete){
             YouWin();
         }
 
@@ -54,7 +57,7 @@ public class GameManager : MonoBehaviour
         }
     }
     public void StartGame(){
-        GameStatus = true;
+        GameStarted = true;
         _startText.SetActive(false);
         _playerCollision.CanClick = false;
         _spawner.NewCoinPosition();
@@ -62,14 +65,10 @@ public class GameManager : MonoBehaviour
     }
 
     public void LoseGame(){
-        GameStatus = false;
+        GameStarted = false;
         LevelComplete = true;
         LevelLose = true;
         _animation.Play("LoseAnimation");
-    }
-
-    void ReloadScene() {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
      void YouWin() {
@@ -82,11 +81,17 @@ public class GameManager : MonoBehaviour
         SaveScore();
     }
 
+    void ReloadScene() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
     public void ScoreUpdate(){
         _myScore -= 1;
         _myScoretext.text = _myScore.ToString();
     }
 
+
+    //Save and Load Level/TargetScore
     void SaveScore() {
         PlayerPrefs.SetInt("myLevel", _targetScore);
     }

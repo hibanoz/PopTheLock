@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class ColorLerp : MonoBehaviour
 {
-
-    [SerializeField] private Camera GameCam;
+    [Header("Lerp Colors")]
     [SerializeField] private Color _baseColor;
     [SerializeField] private Color _winColor;
     [SerializeField] private Color _loseColor;
-    [SerializeField] private float _lerpValue;
+
+    [Header("Lerp Values")]
+    float _lerpValue;
     [SerializeField] private float _lerpSpeed=3;
+
+    [SerializeField] private Camera GameCam;
     [SerializeField] private GameManager GameManager;
 
 
-
-    // Update is called once per frame
     void Update(){
         if (GameManager.LevelWin) {
             GameCam.backgroundColor = Color.Lerp(_baseColor, _winColor, _lerpValue += _lerpSpeed * Time.deltaTime);

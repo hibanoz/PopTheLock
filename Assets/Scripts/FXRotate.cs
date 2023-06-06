@@ -5,7 +5,6 @@ using UnityEngine;
 public class FXRotate : MonoBehaviour
 {
     [SerializeField] private PlayerController _playerController;
-    public float Rotation;
 
     void Update() { 
      if (_playerController.RotDirection == PlayerController.Direction.Clockwise) {

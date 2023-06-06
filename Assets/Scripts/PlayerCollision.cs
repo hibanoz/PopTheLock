@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class PlayerCollision : MonoBehaviour
 {
-
+    [Header("Collision Detector")]
     public bool CanClick;
     public bool ShouldClick;
-    public bool Boost;
+    public bool BoostEnabler;
 
+    [Header("Status References")]
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private BoostManager _boostManager;
 
     void Start() {
+        //Just to not  have a you lose on first click
         CanClick = true;
     }
 
@@ -22,7 +24,7 @@ public class PlayerCollision : MonoBehaviour
         {
             CanClick = true;
             ShouldClick = true;
-            Boost = false;
+            BoostEnabler = false;
             _boostManager.IsCurrentlyBoosted = false;
         }
 
@@ -30,7 +32,7 @@ public class PlayerCollision : MonoBehaviour
         {
             CanClick = true;
             ShouldClick = true;
-            Boost = true;
+            BoostEnabler = true;
             _boostManager.IsCurrentlyBoosted = true;
         }
     }
@@ -40,7 +42,10 @@ public class PlayerCollision : MonoBehaviour
         if ((collision.gameObject.tag == "Coin" || collision.gameObject.tag == "Booster") && ShouldClick)
         {
             CanClick = false;
-            _gameManager.LoseGame();
+            if (!_gameManager.TestMode) {
+                _gameManager.LoseGame();
+            }
+
         }
     }
 }
