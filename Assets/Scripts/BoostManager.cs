@@ -13,6 +13,8 @@ public class BoostManager : MonoBehaviour
     [Header("Juice")]
     [SerializeField] private ParticleSystem _boostFX;
     [SerializeField] private Animation _boostUIAnimation;
+    [SerializeField] private AudioManager _audioManager;
+
 
     //Activate the Boost Coroutine to Lerp Speed
     void Update(){
@@ -20,6 +22,7 @@ public class BoostManager : MonoBehaviour
             StartCoroutine(Boosted());
             IsBoosted = false;
             _boostUIAnimation.Play("BoostedAnimation");
+            _audioManager.PlayBoosterSound();
         }
     }
 

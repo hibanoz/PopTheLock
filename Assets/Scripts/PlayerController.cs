@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private CoinRotator _spawner;
     [SerializeField] private CoinActivator _activator;
     [SerializeField] private GameManager _gameManager;
+    [SerializeField] private AudioManager _audioManager;
     public Direction RotDirection;
 
     [Header("Juice")]
@@ -81,6 +82,7 @@ public class PlayerController : MonoBehaviour
     //Correct Click Behaviour
     private void CorrectAction()
     {
+        _audioManager.PlayPopSound();
         _collision.ShouldClick = false;
         _collision.CanClick = false;
         EnumSwitcher();
@@ -93,7 +95,7 @@ public class PlayerController : MonoBehaviour
         }
 
         
-        if (_collision.BoostEnabler) {
+        if (_collision.BoostEnabler && !_gameManager.IsLastPop) {
             _boostManager.IsBoosted = true;
         }
             

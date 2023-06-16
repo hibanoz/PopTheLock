@@ -9,7 +9,7 @@ public class CoinActivator : MonoBehaviour
     {
         get { return (Random.value > _randomComparator); }
     }
-    private int boostActivationCountDown = 4;
+    private int boostActivationCountDown = 2;
 
     [Header("Coins Type")]
     [SerializeField] private GameObject _normalCoin;
@@ -29,14 +29,14 @@ public class CoinActivator : MonoBehaviour
             if (RandomValue) {
                 _boostedCoin.SetActive(false);
                 _normalCoin.SetActive(true);
-                _randomComparator += 0.1f;
+                _randomComparator += 0.2f;
 
             }
             else {
                 _boostedCoin.SetActive(true);
                 _normalCoin.SetActive(false);
                 _randomComparator = 0.2f;
-                boostActivationCountDown = 3;
+                boostActivationCountDown = 2;
             }
         }
            

@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public bool LevelComplete;
     public bool LevelWin;
     public bool LevelLose;
+    public bool IsLastPop;
 
 
     [Header("Script References")]
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerCollision _playerCollision;
     [SerializeField] private CoinRotator _spawner;
     [SerializeField] private GameObject _coinSpawner;
+    [SerializeField] private AudioManager _audioManager;
 
     [Header("UI References")]
     [SerializeField] private GameObject _startText;
@@ -55,6 +57,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown("space") && LevelComplete){
             ReloadScene();
         }
+        LastPopChecker();
     }
     public void StartGame(){
         GameStarted = true;
@@ -65,6 +68,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void LoseGame(){
+        _audioManager.PlayLoseSound();
         GameStarted = false;
         LevelComplete = true;
         LevelLose = true;
@@ -72,6 +76,7 @@ public class GameManager : MonoBehaviour
     }
 
      void YouWin() {
+        _audioManager.PlayWinSound();
         _coinSpawner.SetActive(false);
         _playerController.RotationSpeed = 0;
         _animation.Play("Level Complete");
@@ -102,5 +107,10 @@ public class GameManager : MonoBehaviour
             loadedScore = 1;
         }
         _targetScore = loadedScore;
+    }
+
+    public void LastPopChecker() {
+        if (_myScore == 1) IsLastPop=true;
+
     }
 }
